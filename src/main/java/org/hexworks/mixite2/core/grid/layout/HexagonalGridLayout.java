@@ -46,4 +46,9 @@ public enum HexagonalGridLayout
     {
         return gridLayoutStrategy.checkParameters(gridHeight, gridWidth);
     }
+
+    public GridLayoutStrategy getGridLayoutStrategy()
+    {
+        return gridLayoutStrategy;
+    }
 }

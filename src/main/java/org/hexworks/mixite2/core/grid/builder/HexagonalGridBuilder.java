@@ -22,7 +22,7 @@ import org.hexworks.mixite2.core.grid.layout.RectangularGridLayoutStrategy;
  *
  * Defaults for orientation and grid layout are POINTY_TOP and RECTANGULAR.
  */
-class HexagonalGridBuilder
+public class HexagonalGridBuilder
 {
     private int gridWidth = 0;
     private int gridHeight = 0;
