@@ -184,4 +184,15 @@ public class HexagonalGridImpl implements HexagonalGrid
         }
         return neighbors;
     }
+
+    @Override
+    public GridSpec getGridSpec()
+    {
+        return gridSpec;
+    }
+
+    public Collection<GridCell> getCells()
+    {
+        return cells;
+    }
 }

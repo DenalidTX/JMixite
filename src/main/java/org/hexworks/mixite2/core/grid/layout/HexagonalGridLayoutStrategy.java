@@ -5,11 +5,12 @@ import org.hexworks.mixite2.core.geometry.HexagonOrientation;
 import org.hexworks.mixite2.core.grid.GridSpec;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 class HexagonalGridLayoutStrategy implements GridLayoutStrategy
 {
 
-    public Iterable<CubeCoordinate> fetchGridCoordinates(GridSpec gridSpec)
+    public Collection<CubeCoordinate> fetchGridCoordinates(GridSpec gridSpec)
     {
         int gridSize = gridSpec.getGridHeight();
         ArrayList<CubeCoordinate> coords = new ArrayList<>(1 + (gridSize * gridSize * 6 - 6) / 8); // TODO cell count owned by the builder

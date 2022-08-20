@@ -162,6 +162,11 @@ public class HexagonalGridBuilder
         return this;
     }
 
+    public GridLayoutStrategy getGridLayoutStrategy()
+    {
+        return gridLayoutStrategy;
+    }
+
     private void checkParameters()
     {
         if (radius <= 0) {

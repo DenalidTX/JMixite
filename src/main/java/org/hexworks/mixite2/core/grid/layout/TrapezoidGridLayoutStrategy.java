@@ -4,11 +4,12 @@ import org.hexworks.mixite2.core.geometry.CubeCoordinate;
 import org.hexworks.mixite2.core.grid.GridSpec;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 class TrapezoidGridLayoutStrategy implements GridLayoutStrategy
 {
 
-    public Iterable<CubeCoordinate> fetchGridCoordinates(GridSpec gridSpec)
+    public Collection<CubeCoordinate> fetchGridCoordinates(GridSpec gridSpec)
     {
         ArrayList<CubeCoordinate> coords = new ArrayList<>(gridSpec.getGridHeight() * gridSpec.getGridWidth());
 

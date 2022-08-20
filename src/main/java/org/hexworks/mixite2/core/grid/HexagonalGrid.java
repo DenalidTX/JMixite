@@ -32,7 +32,7 @@ public interface HexagonalGrid
      *
      * @return [Hexagon]s in the given range.
      */
-    Iterable<GridCell> getHexagonsByCubeRange(CubeCoordinate from, CubeCoordinate to);
+    Collection<GridCell> getHexagonsByCubeRange(CubeCoordinate from, CubeCoordinate to);
 
     /**
      * Returns all [Hexagon]s contained in the given offset coordinate range.
@@ -45,7 +45,7 @@ public interface HexagonalGrid
      *
      * @return [Hexagon]s in the given range.
      */
-    Iterable<GridCell> getHexagonsByOffsetRange(int gridXFrom, int gridXTo, int gridYFrom, int gridYTo);
+    Collection<GridCell> getHexagonsByOffsetRange(int gridXFrom, int gridXTo, int gridYFrom, int gridYTo);
 
     /**
      * Tells whether the given cube coordinate is on the grid or not.
@@ -101,4 +101,6 @@ public interface HexagonalGrid
     Collection<GridCell> getNeighborsOf(GridCell hexagon);
 
     GridSpec getGridSpec();
+
+    Collection<GridCell> getCells();
 }

@@ -3,6 +3,8 @@ package org.hexworks.mixite2.core.grid.layout;
 import org.hexworks.mixite2.core.geometry.CubeCoordinate;
 import org.hexworks.mixite2.core.grid.GridSpec;
 
+import java.util.Collection;
+
 
 /**
  * Represents the method of creating a [org.hexworks.mixite.core.api.HexagonalGrid] corresponding to a given shape.
@@ -18,7 +20,7 @@ public interface GridLayoutStrategy
      *
      * @return object for iterating through all coordinates
      */
-    Iterable<CubeCoordinate> fetchGridCoordinates(GridSpec gridSpec);
+    Collection<CubeCoordinate> fetchGridCoordinates(GridSpec gridSpec);
 
     /**
      * Checks whether the supplied parameters are valid for the given strategy.

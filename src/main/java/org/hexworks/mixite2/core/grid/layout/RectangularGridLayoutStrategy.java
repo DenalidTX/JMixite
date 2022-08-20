@@ -5,12 +5,13 @@ import org.hexworks.mixite2.core.geometry.CubeCoordinate;
 import org.hexworks.mixite2.core.grid.GridSpec;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class RectangularGridLayoutStrategy implements GridLayoutStrategy
 {
     private static final CoordinateConverter coordConverter = new CoordinateConverter();
 
-    public Iterable<CubeCoordinate> fetchGridCoordinates(GridSpec gridSpec)
+    public Collection<CubeCoordinate> fetchGridCoordinates(GridSpec gridSpec)
     {
         ArrayList<CubeCoordinate> coords = new ArrayList<>( gridSpec.getGridHeight() * gridSpec.getGridWidth());
 

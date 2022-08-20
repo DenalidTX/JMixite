@@ -16,4 +16,9 @@ public enum HexagonOrientation
     {
         coordinateOffset = offset;
     }
+
+    public float getCoordinateOffset()
+    {
+        return coordinateOffset;
+    }
 }
