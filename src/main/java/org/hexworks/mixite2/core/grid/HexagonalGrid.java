@@ -100,4 +100,5 @@ public interface HexagonalGrid
      */
     Collection<GridCell> getNeighborsOf(GridCell hexagon);
 
+    GridSpec getGridSpec();
 }

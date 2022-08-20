@@ -10,7 +10,7 @@ public class GridCell
     private final CubeCoordinate coordinate;
     private final Hexagon hexagon;
 
-    GridCell(CubeCoordinate coordinate, Hexagon hexagon)
+    public GridCell(CubeCoordinate coordinate, Hexagon hexagon)
     {
         this.coordinate = coordinate;
         this.hexagon = hexagon;
