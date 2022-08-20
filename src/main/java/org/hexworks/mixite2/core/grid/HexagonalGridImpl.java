@@ -1,79 +1,109 @@
-package org.hexworks.mixite2.core.grid
+package org.hexworks.mixite2.core.grid;
 
-import org.hexworks.mixite2.core.geometry.CoordinateConverter
-import org.hexworks.mixite2.core.geometry.CubeCoordinate
-import org.hexworks.mixite2.core.geometry.Hexagon
-import org.hexworks.mixite2.core.geometry.Point
-import kotlin.math.abs
+import org.hexworks.mixite2.core.geometry.CoordinateConverter;
+import org.hexworks.mixite2.core.geometry.CubeCoordinate;
+import org.hexworks.mixite2.core.geometry.Hexagon;
+import org.hexworks.mixite2.core.geometry.Point;
 
-class HexagonalGridImpl(override val gridSpec: GridSpec) : HexagonalGrid {
+import java.util.*;
 
-    override val cells: HashSet<GridCell> = HashSet()
+public class HexagonalGridImpl implements HexagonalGrid
+{
+    private static final List<int[]> NEIGHBORS = Arrays.asList(
+            new int[]{+1, 0},
+            new int[]{+1, -1},
+            new int[]{0, -1},
+            new int[]{-1, 0},
+            new int[]{-1, +1},
+            new int[]{0, +1}
+    );
+    private static final int NEIGHBOR_X_INDEX = 0;
+    private static final int NEIGHBOR_Z_INDEX = 1;
+    private static final CoordinateConverter coordConverter = new CoordinateConverter();
 
-    init {
-        for (cubeCoordinate in gridSpec.getGridLayout().fetchGridCoordinates(gridSpec)) {
-            cells.add(GridCell(cubeCoordinate, Hexagon(cubeCoordinate, gridSpec)))
+    private final GridSpec gridSpec;
+
+    private final HashSet<GridCell> cells = new HashSet<>();
+
+
+    public HexagonalGridImpl(GridSpec gridSpec)
+    {
+        this.gridSpec = gridSpec;
+
+        for (CubeCoordinate cubeCoordinate : this.gridSpec.getGridLayout().fetchGridCoordinates(gridSpec))
+        {
+            cells.add(new GridCell(cubeCoordinate, new Hexagon(cubeCoordinate, gridSpec)));
         }
     }
 
-    override fun getHexagonsByCubeRange(from: CubeCoordinate, to: CubeCoordinate): List<GridCell> {
-        val coordinates = ArrayList<GridCell>(abs(from.gridZ - to.gridZ) + abs(from.gridX - to.gridX))
+    public List<GridCell> getHexagonsByCubeRange(CubeCoordinate from, CubeCoordinate to)
+    {
+        List<GridCell> coordinates = new ArrayList<>(Math.abs(from.gridZ() - to.gridZ()) + Math.abs(from.gridX() - to.gridX()));
 
-        for (gridZ in from.gridZ .. to.gridZ) {
-            for (gridX in from.gridX .. to.gridX) {
+        for (int gridZ = from.gridZ(); gridZ <= to.gridZ(); gridZ++)
+        {
+            for (int gridX = from.gridX(); gridX <= to.gridX(); gridX++)
+            {
                 // TODO: Verify that this works and that the names are accurate.
-                val coord = getByGridCoordinate(gridX, gridZ)
-                if (coord != null) {
-                    coordinates.add(coord)
-                }
+                Optional<GridCell> coord = getByGridCoordinate(gridX, gridZ);
+                coord.ifPresent(coordinates::add);
             }
         }
 
-        return coordinates
+        return coordinates;
     }
 
-    override fun getHexagonsByOffsetRange(gridXFrom: Int, gridXTo: Int, gridYFrom: Int, gridYTo: Int): List<GridCell> {
-        val coordinates = ArrayList<GridCell>()
+    public List<GridCell> getHexagonsByOffsetRange(int gridXFrom, int gridXTo, int gridYFrom, int gridYTo)
+    {
+        List<GridCell> coordinates = new ArrayList<>();
 
-        for (gridX in gridXFrom..gridXTo) {
-            for (gridY in gridYFrom..gridYTo) {
+        for (int gridX = gridXFrom; gridX <= gridXTo; gridX++)
+        {
+            for (int gridY = gridYFrom; gridY <= gridYTo; gridY++)
+            {
                 // TODO: Verify that this works and that the names are accurate.
-                val cubeX = CoordinateConverter.convertOffsetCoordinatesToCubeX(gridX, gridY, gridSpec.getOrientation())
-                val cubeZ = CoordinateConverter.convertOffsetCoordinatesToCubeZ(gridX, gridY, gridSpec.getOrientation())
-                val coord = getByGridCoordinate(cubeX, cubeZ)
-                if (coord != null) {
-                    coordinates.add(coord)
-                }
+                int cubeX = coordConverter.convertOffsetCoordinatesToCubeX(gridX, gridY, gridSpec.getOrientation());
+                int cubeZ = coordConverter.convertOffsetCoordinatesToCubeZ(gridX, gridY, gridSpec.getOrientation());
+                Optional<GridCell> coord = getByGridCoordinate(cubeX, cubeZ);
+                coord.ifPresent(coordinates::add);
             }
         }
 
-        return coordinates
+        return coordinates;
     }
 
-    override fun containsCubeCoordinate(coordinate: CubeCoordinate): Boolean {
-        return this.getByCubeCoordinate(coordinate) != null
+    public boolean containsCubeCoordinate(CubeCoordinate coordinate)
+    {
+        return this.getByCubeCoordinate(coordinate).isPresent();
     }
 
-    override fun getByCubeCoordinate(coordinate: CubeCoordinate): GridCell? =
+    public Optional<GridCell> getByCubeCoordinate(CubeCoordinate coordinate)
+    {
         // TODO: Verify that this has the desired effect. Is 'cube coordinate' the same as 'grid coordinate'?
-        getByGridCoordinate(coordinate.gridX, coordinate.gridZ)
+        return getByGridCoordinate(coordinate.gridX(), coordinate.gridZ());
+    }
 
-    private fun getByGridCoordinate(gridX: Int, gridZ: Int): GridCell? =
-        cells.firstOrNull { gridCell: GridCell -> gridCell.equals(gridX, gridZ) }
+    public Optional<GridCell> getByGridCoordinate(int gridX, int gridZ)
+    {
+        return cells.stream()
+                .filter(cell -> cell.equals(gridX, gridZ))
+                .findFirst();
+    }
 
-    override fun getByPixelCoordinate(pixelCoord: Point): GridCell? {
-        var estimatedGridX = (pixelCoord.coordinateX / gridSpec.getHexagonWidth()).toInt()
-        var estimatedGridZ = (pixelCoord.coordinateY / gridSpec.getHexagonHeight()).toInt()
-        estimatedGridX = CoordinateConverter.convertOffsetCoordinatesToCubeX(
+    public Optional<GridCell> getByPixelCoordinate(Point pixelCoord)
+    {
+        int estimatedGridX = (int) (pixelCoord.coordinateX() / gridSpec.getHexagonWidth());
+        int estimatedGridZ = (int) (pixelCoord.coordinateY() / gridSpec.getHexagonHeight());
+        estimatedGridX = coordConverter.convertOffsetCoordinatesToCubeX(
             estimatedGridX,
             estimatedGridZ,
             gridSpec.getOrientation()
-        )
-        estimatedGridZ = CoordinateConverter.convertOffsetCoordinatesToCubeZ(
+        );
+        estimatedGridZ = coordConverter.convertOffsetCoordinatesToCubeZ(
             estimatedGridX,
             estimatedGridZ,
             gridSpec.getOrientation()
-        )
+        );
 
         // We might be off-grid, so we can't just choose the cell that ought to exist.
         // Instead, estimate the cubic coordinates of the point (done above), determine
@@ -81,80 +111,77 @@ class HexagonalGridImpl(override val gridSpec: GridSpec) : HexagonalGrid {
         // the estimated coordinate is within the grid's inner radius, just use that and
         // don't bother about the neighbors.
 
-        val estimatedCell = getByGridCoordinate(estimatedGridX, estimatedGridZ)
-        var closestCell: GridCell? = null
+        Optional<GridCell> estimatedCell = getByGridCoordinate(estimatedGridX, estimatedGridZ);
+        Optional<GridCell> closestCell = Optional.empty();
 
         // It's unlikely that we will have a null estimate, but check just in case.
-        if (estimatedCell != null) {
+        if (estimatedCell.isPresent())
+        {
 
-            val estCellDistance = pixelCoord.distanceFrom(estimatedCell.getHexagon().getCenter())
-            if(estCellDistance <= gridSpec.innerRadius){
-                closestCell = estimatedCell
+            double estCellDistance = pixelCoord.distanceFrom(estimatedCell.get().getHexagon().getCenter());
+            if(estCellDistance <= gridSpec.getInnerRadius())
+            {
+                closestCell = estimatedCell;
             }
-            else {
+            else
+            {
                 // Use the distance as the key so that it's easy to look up the cell.
-                var distances = HashMap<Double, GridCell>()
+                HashMap<Double, GridCell> distances = new HashMap<>();
 
                 // If we didn't find the estimated cell in our real grid, look for neighbors.
-                for (neighborIndex in NEIGHBORS.indices) {
+                for (int[] neighborCoords : NEIGHBORS)
+                {
                     var neighbor = getByGridCoordinate(
-                        NEIGHBORS[neighborIndex][NEIGHBOR_X_INDEX] + estimatedCell.getCoordinate().gridX,
-                        NEIGHBORS[neighborIndex][NEIGHBOR_Z_INDEX] + estimatedCell.getCoordinate().gridZ
-                    )
-                    if (neighbor != null) {
-                        distances[pixelCoord.distanceFrom(neighbor.getHexagon().getCenter())] = neighbor
+                            neighborCoords[NEIGHBOR_X_INDEX] + estimatedCell.get().getCoordinate().gridX(),
+                            neighborCoords[NEIGHBOR_Z_INDEX] + estimatedCell.get().getCoordinate().gridZ()
+                    );
+                    if (neighbor.isPresent())
+                    {
+                        distances.put(pixelCoord.distanceFrom(neighbor.get().getHexagon().getCenter()), neighbor.get());
                     }
                 }
 
-                if(!distances.isEmpty()) {
-                    val minDist = distances.keys.minOrNull()
-                    if(minDist != null) {
-                        closestCell = distances[minDist]
-                    }
+                if(!distances.isEmpty())
+                {
+                    Optional<Double> minDist = distances.keySet()
+                            .stream()
+                            .min(Double::compareTo);
+                    closestCell = Optional.of(distances.get(minDist.get()));
                 }
             }
         }
 
-        return closestCell
+        return closestCell;
     }
 
-    private fun _getNeighborByIndex(hexagon: GridCell, index: Int) =
-        CubeCoordinate.fromCoordinates(
-            hexagon.getCoordinate().gridX + NEIGHBORS[index][NEIGHBOR_X_INDEX],
-            hexagon.getCoordinate().gridZ + NEIGHBORS[index][NEIGHBOR_Z_INDEX]
-        )
+    private CubeCoordinate _getNeighborByIndex(GridCell hexagon, int index)
+    {
+        return CubeCoordinate.fromCoordinates(
+                hexagon.getCoordinate().gridX() + NEIGHBORS.get(index)[NEIGHBOR_X_INDEX],
+                hexagon.getCoordinate().gridZ() + NEIGHBORS.get(index)[NEIGHBOR_Z_INDEX]
+        );
+    }
+    public CubeCoordinate getNeighborCoordinateByIndex(CubeCoordinate coordinate, int index)
+    {
+        return CubeCoordinate.fromCoordinates(
+                coordinate.gridX() + NEIGHBORS.get(index)[NEIGHBOR_X_INDEX],
+                coordinate.gridZ() + NEIGHBORS.get(index)[NEIGHBOR_Z_INDEX]
+        );
+    }
+    public Optional<GridCell> getNeighborByIndex(GridCell hexagon, int index)
 
-    override fun getNeighborCoordinateByIndex(coordinate: CubeCoordinate, index: Int) =
-        CubeCoordinate.fromCoordinates(
-            coordinate.gridX + NEIGHBORS[index][NEIGHBOR_X_INDEX],
-            coordinate.gridZ + NEIGHBORS[index][NEIGHBOR_Z_INDEX]
-        )
+    {
+        return getByCubeCoordinate(_getNeighborByIndex(hexagon, index));
+    }
 
-    override fun getNeighborByIndex(hexagon: GridCell, index: Int) =
-        getByCubeCoordinate(_getNeighborByIndex(hexagon, index))
-
-    override fun getNeighborsOf(hexagon: GridCell): Collection<GridCell> {
-        val neighbors = HashSet<GridCell>()
-        for (i in NEIGHBORS.indices) {
-            val retHex = getNeighborByIndex(hexagon, i)
-            if (retHex != null) {
-                neighbors.add(retHex)
-            }
+    public Collection<GridCell> getNeighborsOf(GridCell hexagon)
+    {
+        HashSet<GridCell> neighbors = new HashSet<>();
+        for (int i = 0; i < NEIGHBORS.size(); i++)
+        {
+            Optional<GridCell> retHex = getNeighborByIndex(hexagon, i);
+            retHex.ifPresent(neighbors::add);
         }
-        return neighbors
-    }
-
-    companion object {
-
-        private val NEIGHBORS = arrayOf(
-            intArrayOf(+1, 0),
-            intArrayOf(+1, -1),
-            intArrayOf(0, -1),
-            intArrayOf(-1, 0),
-            intArrayOf(-1, +1),
-            intArrayOf(0, +1)
-        )
-        private const val NEIGHBOR_X_INDEX = 0
-        private const val NEIGHBOR_Z_INDEX = 1
+        return neighbors;
     }
 }

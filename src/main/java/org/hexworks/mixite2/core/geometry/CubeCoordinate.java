@@ -66,7 +66,7 @@ public record CubeCoordinate (int gridX, int gridZ)
         return Point.fromPosition(gridX, gridZ);
     }
 
-    boolean equals(int otherGridX, int otherGridZ) {
+    public boolean equals(int otherGridX, int otherGridZ) {
         return (gridX == otherGridX) && (gridZ == otherGridZ);
     }
 }

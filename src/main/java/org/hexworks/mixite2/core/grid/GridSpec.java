@@ -55,6 +55,11 @@ public class GridSpec
         return outerRadius;
     }
 
+    public double getInnerRadius()
+    {
+        return innerRadius;
+    }
+
     public int getGridWidth()
     {
         return gridWidth;

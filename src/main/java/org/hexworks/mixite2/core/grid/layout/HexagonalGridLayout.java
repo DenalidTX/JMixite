@@ -1,4 +1,4 @@
-package org.hexworks.mixite2.core.grid.layout
+package org.hexworks.mixite2.core.grid.layout;
 
 /**
  * This enum represents the possible shapes a [HexagonalGrid] can have.
@@ -6,35 +6,44 @@ package org.hexworks.mixite2.core.grid.layout
  * in this package but since the name GridLayout is so common (in SWT for example)
  * using this name seemed appropriate.
  */
-enum class HexagonalGridLayout(val gridLayoutStrategy: GridLayoutStrategy) {
+public enum HexagonalGridLayout
+{
 
     /**
      * A rectangular layout has no special rules.
      */
-    RECTANGULAR(RectangularGridLayoutStrategy()),
+    RECTANGULAR(new RectangularGridLayoutStrategy()),
 
     /**
      * The hexagonal layout must have equal width and height and
      * it must be odd.
      */
-    HEXAGONAL(HexagonalGridLayoutStrategy()),
+    HEXAGONAL(new HexagonalGridLayoutStrategy()),
 
     /**
      * A triangular layout must have equal width and height.
      */
-    TRIANGULAR(TriangularGridLayoutStrategy()),
+    TRIANGULAR(new TriangularGridLayoutStrategy()),
 
     /**
      * A trapezoid layout has no special rules.
      */
-    TRAPEZOID(TrapezoidGridLayoutStrategy());
+    TRAPEZOID(new TrapezoidGridLayoutStrategy());
+
+    private final GridLayoutStrategy gridLayoutStrategy;
+
+    HexagonalGridLayout(GridLayoutStrategy gridLayoutStrategy)
+    {
+        this.gridLayoutStrategy = gridLayoutStrategy;
+    }
 
     /**
      * Checks whether the grid height/width parameters can be used for the given [GridLayoutStrategy].
      *
      * @return valid?
      */
-    internal fun checkParameters(gridHeight: Int, gridWidth: Int): Boolean {
-        return gridLayoutStrategy.checkParameters(gridHeight, gridWidth)
+    private boolean checkParameters(int gridHeight, int gridWidth)
+    {
+        return gridLayoutStrategy.checkParameters(gridHeight, gridWidth);
     }
 }

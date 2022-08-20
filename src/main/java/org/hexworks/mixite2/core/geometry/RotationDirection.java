@@ -1,21 +1,24 @@
-package org.hexworks.mixite2.core.geometry
+package org.hexworks.mixite2.core.geometry;
 
 /**
  * Represents a right or left angle (60°) of a Hexagon rotation.
  * See: http://www.redblobgames.com/grids/hexagons/#rotation
  */
-enum class RotationDirection constructor(private val rotationCalculator: RotationCalculator) {
+public enum RotationDirection
+{
 
-    RIGHT(object : RotationCalculator {
-        override fun calculate(coord: CubeCoordinate): CubeCoordinate {
-            return CubeCoordinate.fromCoordinates(-coord.gridZ, -coord.gridY)
-        }
-    }),
-    LEFT(object : RotationCalculator {
-        override fun calculate(coord: CubeCoordinate): CubeCoordinate {
-            return CubeCoordinate.fromCoordinates(-coord.gridY, -coord.gridX)
-        }
-    });
+    RIGHT(coord -> CubeCoordinate.fromCoordinates(-coord.gridZ(), -coord.gridY())),
+    LEFT(coord -> CubeCoordinate.fromCoordinates(-coord.gridY(), -coord.gridX()));
+
+    private interface RotationCalculator {
+        CubeCoordinate calculate(CubeCoordinate coord);
+    }
+    private final RotationCalculator rotationCalculator;
+
+    RotationDirection(RotationCalculator rotationCalculator)
+    {
+        this.rotationCalculator = rotationCalculator;
+    }
 
     /**
      * Calculates a rotation (right or left) of `coord`.
@@ -24,11 +27,9 @@ enum class RotationDirection constructor(private val rotationCalculator: Rotatio
      *
      * @return rotated coordinate
      */
-    fun calculateRotation(coord: CubeCoordinate): CubeCoordinate {
-        return rotationCalculator.calculate(coord)
+    public CubeCoordinate calculateRotation(CubeCoordinate coord)
+    {
+        return rotationCalculator.calculate(coord);
     }
 
-    internal interface RotationCalculator {
-        fun calculate(coord: CubeCoordinate): CubeCoordinate
-    }
 }

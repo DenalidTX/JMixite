@@ -1,29 +1,39 @@
-package org.hexworks.mixite2.core.grid.layout
+package org.hexworks.mixite2.core.grid.layout;
 
-import org.hexworks.mixite2.core.geometry.CubeCoordinate
-import org.hexworks.mixite2.core.grid.GridSpec
+import org.hexworks.mixite2.core.geometry.CubeCoordinate;
+import org.hexworks.mixite2.core.grid.GridSpec;
 
-class TriangularGridLayoutStrategy : GridLayoutStrategy() {
+import java.util.ArrayList;
 
-    override fun fetchGridCoordinates(gridSpec: GridSpec): Iterable<CubeCoordinate> {
-        val gridSize = gridSpec.getGridHeight()
-        val coords = ArrayList<CubeCoordinate>(gridSize * (gridSize + 1) / 2)
-        for (gridZ in 0 until gridSize) {
-            val endX = gridSize - gridZ
-            for (gridX in 0 until endX) {
-                coords.add(CubeCoordinate.fromCoordinates(gridX, gridZ))
+class TriangularGridLayoutStrategy implements GridLayoutStrategy
+{
+
+    public Iterable<CubeCoordinate> fetchGridCoordinates(GridSpec gridSpec)
+    {
+        int gridSize = gridSpec.getGridHeight();
+        ArrayList<CubeCoordinate> coords = new ArrayList<>(gridSize * (gridSize + 1) / 2);
+
+        // TODO: Check for off-by-one errors. (Kotlin "until")
+        for (int gridZ = 0; gridZ < gridSize; gridZ++)
+        {
+            int endX = gridSize - gridZ;
+            for (int gridX = 0; gridX < endX; gridX++)
+            {
+                coords.add(CubeCoordinate.fromCoordinates(gridX, gridZ));
             }
         }
-        return coords
+        return coords;
     }
 
-    override fun checkParameters(gridHeight: Int, gridWidth: Int): Boolean {
-        val superResult = checkCommonCase(gridHeight, gridWidth)
-        val result = gridHeight == gridWidth
-        return superResult && result
+    public boolean checkParameters(int gridHeight, int gridWidth)
+    {
+        boolean superResult = checkCommonCase(gridHeight, gridWidth);
+        boolean result = gridHeight == gridWidth;
+        return superResult && result;
     }
 
-    override fun getName(): String {
-        return "TRIANGULAR"
+    public String getName()
+    {
+        return "TRIANGULAR";
     }
 }

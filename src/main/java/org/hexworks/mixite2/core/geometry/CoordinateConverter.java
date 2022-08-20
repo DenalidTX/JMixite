@@ -4,9 +4,9 @@ package org.hexworks.mixite2.core.geometry;
  * Utility class for converting coordinated from the offset system to
  * the cube one (the library uses the latter).
  */
-class CoordinateConverter {
-
-        /**
+public class CoordinateConverter
+{
+    /**
          * Calculates the cube X coordinate based on an offset coordinate pair.
          *
          * @param offsetX offset x

@@ -1,28 +1,39 @@
-package org.hexworks.mixite2.core.grid.layout
+package org.hexworks.mixite2.core.grid.layout;
 
-import org.hexworks.mixite2.core.geometry.CoordinateConverter
-import org.hexworks.mixite2.core.geometry.CubeCoordinate
-import org.hexworks.mixite2.core.grid.GridSpec
+import org.hexworks.mixite2.core.geometry.CoordinateConverter;
+import org.hexworks.mixite2.core.geometry.CubeCoordinate;
+import org.hexworks.mixite2.core.grid.GridSpec;
 
-class RectangularGridLayoutStrategy : GridLayoutStrategy() {
+import java.util.ArrayList;
 
-    override fun fetchGridCoordinates(gridSpec: GridSpec): Iterable<CubeCoordinate> {
-        val coords = ArrayList<CubeCoordinate>( gridSpec.getGridHeight() * gridSpec.getGridWidth())
-        for (y in 0 until gridSpec.getGridHeight()) {
-            for (x in 0 until gridSpec.getGridWidth()) {
-                val gridX = CoordinateConverter.convertOffsetCoordinatesToCubeX(x, y, gridSpec.getOrientation())
-                val gridZ = CoordinateConverter.convertOffsetCoordinatesToCubeZ(x, y, gridSpec.getOrientation())
-                coords.add(CubeCoordinate.fromCoordinates(gridX, gridZ))
+public class RectangularGridLayoutStrategy implements GridLayoutStrategy
+{
+    private static final CoordinateConverter coordConverter = new CoordinateConverter();
+
+    public Iterable<CubeCoordinate> fetchGridCoordinates(GridSpec gridSpec)
+    {
+        ArrayList<CubeCoordinate> coords = new ArrayList<>( gridSpec.getGridHeight() * gridSpec.getGridWidth());
+
+        // TODO: Check for off-by-one errors. (Kotlin "until")
+        for (int offsetY = 0; offsetY < gridSpec.getGridHeight(); offsetY++)
+        {
+            for (int offsetX = 0; offsetX < gridSpec.getGridWidth(); offsetX++)
+            {
+                int gridX = coordConverter.convertOffsetCoordinatesToCubeX(offsetX, offsetY, gridSpec.getOrientation());
+                int gridZ = coordConverter.convertOffsetCoordinatesToCubeZ(offsetX, offsetY, gridSpec.getOrientation());
+                coords.add(CubeCoordinate.fromCoordinates(gridX, gridZ));
             }
         }
-        return coords
+        return coords;
     }
 
-    override fun checkParameters(gridHeight: Int, gridWidth: Int): Boolean {
-        return checkCommonCase(gridHeight, gridWidth)
+    public boolean checkParameters(int gridHeight, int gridWidth)
+    {
+        return checkCommonCase(gridHeight, gridWidth);
     }
 
-    override fun getName(): String {
-        return "RECTANGULAR"
+    public String getName()
+    {
+        return "RECTANGULAR";
     }
 }

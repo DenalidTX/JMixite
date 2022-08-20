@@ -1,10 +1,14 @@
-package org.hexworks.mixite2.core.grid.calculator
+package org.hexworks.mixite2.core.grid.calculator;
 
-import org.hexworks.mixite2.core.geometry.CubeCoordinate
-import org.hexworks.mixite2.core.grid.HexagonalGrid
-import org.hexworks.mixite2.core.geometry.Hexagon
-import org.hexworks.mixite2.core.geometry.RotationDirection
-import org.hexworks.mixite2.core.grid.GridCell
+import org.hexworks.mixite2.core.geometry.CubeCoordinate;
+import org.hexworks.mixite2.core.grid.HexagonalGrid;
+import org.hexworks.mixite2.core.geometry.Hexagon;
+import org.hexworks.mixite2.core.geometry.RotationDirection;
+import org.hexworks.mixite2.core.grid.GridCell;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -21,56 +25,51 @@ import org.hexworks.mixite2.core.grid.GridCell
  *  * Path finding between two [Hexagon]s (using obstacles)
  *
  */
-interface HexagonalGridCalculator {
-
-    /**
-     * The hexagonal grid used for the calculations
-     */
-    val hexagonalGrid: HexagonalGrid
-
+public interface HexagonalGridCalculator
+{
     /**
      * Calculates the distance (in hexagons) between two [Hexagon] objects on the grid.
      *
-     * @param hex0 hex 0
-     * @param hex1 hex 1
+     * @param first hex 0
+     * @param second hex 1
      *
      * @return distance
      */
-    fun calculateDistanceBetween(first: GridCell, second: GridCell): Int
+    int calculateDistanceBetween(GridCell first, GridCell second);
 
     /**
      * Returns all [Hexagon]s which are within `distance` (inclusive) from the [Hexagon].
      *
-     * @param hexagon [Hexagon]
+     * @param from [Hexagon]
      * @param distance distance
      *
      * @return [Hexagon]s within distance (inclusive)
      */
-    fun calculateMovementRangeFrom(from: GridCell, distance: Int): Set<GridCell>
+    Collection<GridCell> calculateMovementRangeFrom(GridCell from, int distance);
 
     /**
      * Returns the Hexagon on the grid which is at the point resulted by rotating the `targetHex`'s
      * coordinates around the `originalHex` by `rotationDirection` degrees.
      *
-     * @param originalHex center hex
-     * @param targetHex hex to rotate
+     * @param centerCell center hex
+     * @param targetCell hex to rotate
      * @param rotationDirection direction of the rotation
      *
      * @return result
      */
-    fun rotateHexagon(centerCell: GridCell, targetCell: GridCell, rotationDirection: RotationDirection): GridCell?
+    Optional<GridCell> rotateHexagon(GridCell centerCell, GridCell targetCell, RotationDirection rotationDirection);
 
 
     /**
      * Returns the [Set] of [GridCell]s which are `radius` distance
      * from `centerHexagon`.
      *
-     * @param centerCell center
+     * @param centerCoordinate center
      * @param radius radius
      *
      * @return Set of hexagons or empty set if not applicable
      */
-    fun calculateRingFrom(centerCoordinate: CubeCoordinate, radius: Int): Set<GridCell>
+    Collection<GridCell> calculateRingFrom(CubeCoordinate centerCoordinate, int radius);
 
     /**
      * Returns a [List] of [Hexagon]s which must be traversed in the
@@ -81,5 +80,5 @@ interface HexagonalGridCalculator {
      *
      * @return List of hexagons containing the line
      */
-    fun drawLine(from: GridCell, to: GridCell): List<GridCell>
+    List<GridCell> drawLine(GridCell from, GridCell to);
 }

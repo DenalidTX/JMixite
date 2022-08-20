@@ -1,37 +1,46 @@
-package org.hexworks.mixite2.core.grid
+package org.hexworks.mixite2.core.grid;
 
-import org.hexworks.mixite2.core.geometry.CubeCoordinate
-import org.hexworks.mixite2.core.geometry.Hexagon
-import org.hexworks.mixite2.core.geometry.Point
+import org.hexworks.mixite2.core.geometry.CubeCoordinate;
+import org.hexworks.mixite2.core.geometry.Hexagon;
 
-class GridCell(
-    private val coordinate: CubeCoordinate,
-    private val hexagon: Hexagon) {
+import java.util.Objects;
 
-    fun getCoordinate() : CubeCoordinate {
-        return coordinate
+public class GridCell
+{
+    private final CubeCoordinate coordinate;
+    private final Hexagon hexagon;
+
+    GridCell(CubeCoordinate coordinate, Hexagon hexagon)
+    {
+        this.coordinate = coordinate;
+        this.hexagon = hexagon;
     }
 
-    fun getHexagon() : Hexagon {
-        return hexagon
+    public CubeCoordinate getCoordinate()
+    {
+        return coordinate;
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || this::class != other::class) return false
-
-        other as GridCell
-
-        if (coordinate != other.coordinate) return false
-
-        return true
+    public Hexagon getHexagon()
+    {
+        return hexagon;
     }
 
-    fun equals(otherGridX: Int, otherGridZ: Int): Boolean {
-        return coordinate.equals(otherGridX, otherGridZ)
+    public boolean equals(int otherGridX, int otherGridZ) {
+        return coordinate.equals(otherGridX, otherGridZ);
     }
 
-    override fun hashCode(): Int {
-        return coordinate.hashCode()
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (!(o instanceof GridCell gridCell)) return false;
+        return Objects.equals(getCoordinate(), gridCell.getCoordinate());
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(getCoordinate());
     }
 }

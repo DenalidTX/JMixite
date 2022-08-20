@@ -4,7 +4,7 @@ package org.hexworks.mixite2.core.geometry;
  * Represents a point. Please note that this represents a point in
  * 2d space not an abstract concept of a coordinate.
  */
-record Point (double coordinateX, double coordinateY)
+public record Point (double coordinateX, double coordinateY)
 {
 
     /**

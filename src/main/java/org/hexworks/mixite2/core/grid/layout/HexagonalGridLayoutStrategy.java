@@ -1,42 +1,48 @@
-package org.hexworks.mixite2.core.grid.layout
+package org.hexworks.mixite2.core.grid.layout;
 
-import org.hexworks.mixite2.core.geometry.CubeCoordinate
-import org.hexworks.mixite2.core.geometry.HexagonOrientation
-import org.hexworks.mixite2.core.grid.GridSpec
-import kotlin.math.abs
-import kotlin.math.floor
-import kotlin.math.max
-import kotlin.math.round
+import org.hexworks.mixite2.core.geometry.CubeCoordinate;
+import org.hexworks.mixite2.core.geometry.HexagonOrientation;
+import org.hexworks.mixite2.core.grid.GridSpec;
 
-class HexagonalGridLayoutStrategy : GridLayoutStrategy() {
+import java.util.ArrayList;
 
-    override fun fetchGridCoordinates(gridSpec: GridSpec): Iterable<CubeCoordinate> {
-        val gridSize = gridSpec.getGridHeight()
-        val coords = ArrayList<CubeCoordinate>(1 + (gridSize * gridSize * 6 - 6) / 8) // TODO cell count owned by the builder
-        var startX = if (HexagonOrientation.FLAT_TOP.equals(gridSpec.getOrientation())) floor(gridSize / 2.0).toInt() else round(gridSize / 4.0).toInt()
-        val hexRadius = floor(gridSize / 2.0).toInt()
-        val minX = startX - hexRadius
-        var y = 0
-        while (y < gridSize) {
-            val distanceFromMid = abs(hexRadius - y)
-            for (x in max(startX, minX)..max(startX, minX) + hexRadius + hexRadius - distanceFromMid) {
-                val gridZ = if (HexagonOrientation.FLAT_TOP.equals(gridSpec.getOrientation())) y - floor(gridSize / 4.0).toInt() else y
-                coords.add(CubeCoordinate.fromCoordinates(x, gridZ))
+class HexagonalGridLayoutStrategy implements GridLayoutStrategy
+{
+
+    public Iterable<CubeCoordinate> fetchGridCoordinates(GridSpec gridSpec)
+    {
+        int gridSize = gridSpec.getGridHeight();
+        ArrayList<CubeCoordinate> coords = new ArrayList<>(1 + (gridSize * gridSize * 6 - 6) / 8); // TODO cell count owned by the builder
+        int startX = (int) ((HexagonOrientation.FLAT_TOP.equals(gridSpec.getOrientation())) ? Math.floor(gridSize / 2.0) : Math.round(gridSize / 4.0));
+        int hexRadius = (int) Math.floor(gridSize / 2.0);
+        int minX = startX - hexRadius;
+
+        for (int y = 0; y < gridSize; y++)
+        {
+            int distanceFromMid = Math.abs(hexRadius - y);
+
+            startX = Math.max(startX, minX);
+            int endX = startX + hexRadius + hexRadius - distanceFromMid;
+            for (int x = startX; x < endX; x++)
+            {
+                int gridZ = (HexagonOrientation.FLAT_TOP.equals(gridSpec.getOrientation())) ? (int) (y - Math.floor(gridSize / 4.0)) : y;
+                coords.add(CubeCoordinate.fromCoordinates(x, gridZ));
             }
-            startX--
-            y++
+            startX--;
         }
-        return coords
+        return coords;
     }
 
-    override fun checkParameters(gridHeight: Int, gridWidth: Int): Boolean {
-        val superResult = checkCommonCase(gridHeight, gridWidth)
-        val result = gridHeight == gridWidth && abs(gridHeight % 2) == 1
-        return result && superResult
+    public boolean checkParameters(int gridHeight, int gridWidth)
+    {
+        boolean superResult = checkCommonCase(gridHeight, gridWidth);
+        boolean result = gridHeight == gridWidth && Math.abs(gridHeight % 2) == 1;
+        return result && superResult;
     }
 
-    override fun getName(): String {
-        return "HEXAGONAL"
+    public String getName()
+    {
+        return "HEXAGONAL";
     }
 
 }

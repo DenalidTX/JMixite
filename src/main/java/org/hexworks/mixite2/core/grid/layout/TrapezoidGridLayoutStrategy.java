@@ -1,25 +1,36 @@
-package org.hexworks.mixite2.core.grid.layout
+package org.hexworks.mixite2.core.grid.layout;
 
-import org.hexworks.mixite2.core.geometry.CubeCoordinate
-import org.hexworks.mixite2.core.grid.GridSpec
+import org.hexworks.mixite2.core.geometry.CubeCoordinate;
+import org.hexworks.mixite2.core.grid.GridSpec;
 
-class TrapezoidGridLayoutStrategy : GridLayoutStrategy() {
+import java.util.ArrayList;
 
-    override fun fetchGridCoordinates(gridSpec: GridSpec): Iterable<CubeCoordinate> {
-        val coords = ArrayList<CubeCoordinate>(gridSpec.getGridHeight() * gridSpec.getGridWidth())
-        for (gridZ in 0 until gridSpec.getGridHeight()) {
-            for (gridX in 0 until gridSpec.getGridWidth()) {
-                coords.add(CubeCoordinate.fromCoordinates(gridX, gridZ))
+class TrapezoidGridLayoutStrategy implements GridLayoutStrategy
+{
+
+    public Iterable<CubeCoordinate> fetchGridCoordinates(GridSpec gridSpec)
+    {
+        ArrayList<CubeCoordinate> coords = new ArrayList<>(gridSpec.getGridHeight() * gridSpec.getGridWidth());
+
+
+        // TODO: Check for off-by-one errors. (Kotlin "until")
+        for (int gridZ = 0; gridZ < gridSpec.getGridHeight(); gridZ++)
+        {
+            for (int gridX = 0; gridX < gridSpec.getGridWidth(); gridX++)
+            {
+                coords.add(CubeCoordinate.fromCoordinates(gridX, gridZ));
             }
         }
-        return coords
+        return coords;
     }
 
-    override fun checkParameters(gridHeight: Int, gridWidth: Int): Boolean {
-        return checkCommonCase(gridHeight, gridWidth)
+    public boolean checkParameters(int gridHeight, int gridWidth)
+    {
+        return checkCommonCase(gridHeight, gridWidth);
     }
 
-    override fun getName(): String {
-        return "TRAPEZOID"
+    public String getName()
+    {
+        return "TRAPEZOID";
     }
 }

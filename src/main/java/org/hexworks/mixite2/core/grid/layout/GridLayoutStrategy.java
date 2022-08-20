@@ -1,13 +1,14 @@
-package org.hexworks.mixite2.core.grid.layout
+package org.hexworks.mixite2.core.grid.layout;
 
-import org.hexworks.mixite2.core.geometry.CubeCoordinate
-import org.hexworks.mixite2.core.grid.GridSpec
+import org.hexworks.mixite2.core.geometry.CubeCoordinate;
+import org.hexworks.mixite2.core.grid.GridSpec;
 
 
 /**
  * Represents the method of creating a [org.hexworks.mixite.core.api.HexagonalGrid] corresponding to a given shape.
  */
-public abstract class GridLayoutStrategy {
+public interface GridLayoutStrategy
+{
 
     /**
      * Fetches a monotonically increasing (from left to right, top to bottom) Set of
@@ -17,7 +18,7 @@ public abstract class GridLayoutStrategy {
      *
      * @return object for iterating through all coordinates
      */
-    abstract fun fetchGridCoordinates(gridSpec: GridSpec): Iterable<CubeCoordinate>
+    Iterable<CubeCoordinate> fetchGridCoordinates(GridSpec gridSpec);
 
     /**
      * Checks whether the supplied parameters are valid for the given strategy.
@@ -28,10 +29,11 @@ public abstract class GridLayoutStrategy {
      *
      * @return valid?
      */
-    abstract fun checkParameters(gridHeight: Int, gridWidth: Int): Boolean
+    boolean checkParameters(int gridHeight, int gridWidth);
 
-    protected fun checkCommonCase(gridHeight: Int, gridWidth: Int): Boolean {
-        return gridHeight > 0 && gridWidth > 0
+    default boolean checkCommonCase(int gridHeight, int gridWidth)
+    {
+        return gridHeight > 0 && gridWidth > 0;
     }
 
     /**
@@ -39,6 +41,6 @@ public abstract class GridLayoutStrategy {
      *
      * @return name
      */
-    abstract fun getName() : String
+    String getName();
 
 }

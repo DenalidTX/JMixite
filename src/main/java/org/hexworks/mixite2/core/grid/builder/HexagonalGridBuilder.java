@@ -1,14 +1,14 @@
-package org.hexworks.mixite2.core.grid.builder
+package org.hexworks.mixite2.core.grid.builder;
 
-import org.hexworks.mixite2.core.grid.HexagonalGrid
-import org.hexworks.mixite2.core.grid.HexagonalGridImpl
-import org.hexworks.mixite2.core.geometry.HexagonOrientation
-import org.hexworks.mixite2.core.grid.GridSpec
-import org.hexworks.mixite2.core.grid.calculator.HexagonalGridCalculator
-import org.hexworks.mixite2.core.grid.calculator.HexagonalGridCalculatorImpl
-import org.hexworks.mixite2.core.grid.layout.GridLayoutStrategy
-import org.hexworks.mixite2.core.grid.layout.HexagonalGridLayout
-import org.hexworks.mixite2.core.grid.layout.RectangularGridLayoutStrategy
+import org.hexworks.mixite2.core.grid.HexagonalGrid;
+import org.hexworks.mixite2.core.grid.HexagonalGridImpl;
+import org.hexworks.mixite2.core.geometry.HexagonOrientation;
+import org.hexworks.mixite2.core.grid.GridSpec;
+import org.hexworks.mixite2.core.grid.calculator.HexagonalGridCalculator;
+import org.hexworks.mixite2.core.grid.calculator.HexagonalGridCalculatorImpl;
+import org.hexworks.mixite2.core.grid.layout.GridLayoutStrategy;
+import org.hexworks.mixite2.core.grid.layout.HexagonalGridLayout;
+import org.hexworks.mixite2.core.grid.layout.RectangularGridLayoutStrategy;
 
 /**
  *
@@ -22,28 +22,34 @@ import org.hexworks.mixite2.core.grid.layout.RectangularGridLayoutStrategy
  *
  * Defaults for orientation and grid layout are POINTY_TOP and RECTANGULAR.
  */
-class HexagonalGridBuilder {
-    private var gridWidth: Int = 0
-    private var gridHeight: Int = 0
-    private var radius: Double = 0.toDouble()
-    private var orientation = HexagonOrientation.POINTY_TOP
-    private var gridLayout : GridLayoutStrategy = RectangularGridLayoutStrategy()
+class HexagonalGridBuilder
+{
+    private int gridWidth = 0;
+    private int gridHeight = 0;
+    private double radius = 0d;
+    private HexagonOrientation orientation = HexagonOrientation.POINTY_TOP;
 
-    val gridLayoutStrategy: GridLayoutStrategy
-        get() = gridLayout
+    private GridLayoutStrategy gridLayoutStrategy = new RectangularGridLayoutStrategy();
 
     /**
      * Returns the GridData.
      *
      * @return grid data
      */
-    val gridSpec: GridSpec
-        get() {
-            if (radius == 0.0 || gridWidth == 0 || gridHeight == 0) {
-                throw IllegalStateException("Not all necessary fields are initialized!")
+    private GridSpec gridSpec;
+
+    public GridSpec getGridSpec()
+    {
+        if (gridSpec == null)
+        {
+            if (radius == 0.0 || gridWidth == 0 || gridHeight == 0)
+            {
+                throw new IllegalStateException("Not all necessary fields are initialized!");
             }
-            return GridSpec(orientation, gridLayout, radius, gridWidth, gridHeight)
+            gridSpec = new GridSpec(orientation, gridLayoutStrategy, radius, gridWidth, gridHeight);
         }
+        return gridSpec;
+    }
 
     /**
      * Builds a [HexagonalGrid] using the parameters supplied.
@@ -53,9 +59,10 @@ class HexagonalGridBuilder {
      *
      * @return [HexagonalGrid]
      */
-    fun build(): HexagonalGrid {
-        checkParameters()
-        return HexagonalGridImpl(gridSpec)
+    public HexagonalGrid build()
+    {
+        checkParameters();
+        return new HexagonalGridImpl(getGridSpec());
     }
 
     /**
@@ -65,12 +72,14 @@ class HexagonalGridBuilder {
      *
      * @return calculator
      */
-    fun buildCalculatorFor(hexagonalGrid: HexagonalGrid): HexagonalGridCalculator {
-        return HexagonalGridCalculatorImpl(hexagonalGrid)
+    public HexagonalGridCalculator buildCalculatorFor(HexagonalGrid hexagonalGrid)
+    {
+        return new HexagonalGridCalculatorImpl(hexagonalGrid);
     }
 
-    fun getRadius(): Double {
-        return radius
+    public double getRadius()
+    {
+        return radius;
     }
 
     /**
@@ -80,12 +89,15 @@ class HexagonalGridBuilder {
      *
      * @return this [HexagonalGridBuilder]
      */
-    fun setRadius(radius: Double): HexagonalGridBuilder = also {
-        this.radius = radius
+    public HexagonalGridBuilder setRadius(double radius)
+    {
+        this.radius = radius;
+        return this;
     }
 
-    fun getGridWidth(): Int {
-        return gridWidth
+    int getGridWidth()
+    {
+        return gridWidth;
     }
 
     /**
@@ -95,12 +107,15 @@ class HexagonalGridBuilder {
      *
      * @return this [HexagonalGridBuilder]
      */
-    fun setGridWidth(gridWidth: Int): HexagonalGridBuilder = also {
-        this.gridWidth = gridWidth
+    public HexagonalGridBuilder setGridWidth(int gridWidth)
+    {
+        this.gridWidth = gridWidth;
+        return this;
     }
 
-    fun getGridHeight(): Int {
-        return gridHeight
+    public int getGridHeight()
+    {
+        return gridHeight;
     }
 
     /**
@@ -110,12 +125,15 @@ class HexagonalGridBuilder {
      *
      * @return this [HexagonalGridBuilder]
      */
-    fun setGridHeight(gridHeight: Int): HexagonalGridBuilder = also {
-        this.gridHeight = gridHeight
+    public HexagonalGridBuilder setGridHeight(int gridHeight)
+    {
+        this.gridHeight = gridHeight;
+        return this;
     }
 
-    fun getOrientation(): HexagonOrientation {
-        return orientation
+    public HexagonOrientation getOrientation()
+    {
+        return orientation;
     }
 
     /**
@@ -123,11 +141,12 @@ class HexagonalGridBuilder {
      * If it is not set HexagonOrientation.POINTY will be used.
      *
      * @param orientation orientation
-     *
      * @return this [HexagonalGridBuilder]
      */
-    fun setOrientation(orientation: HexagonOrientation): HexagonalGridBuilder = also {
-        this.orientation = orientation
+    public HexagonalGridBuilder setOrientation(HexagonOrientation orientation)
+    {
+        this.orientation = orientation;
+        return this;
     }
 
     /**
@@ -135,31 +154,22 @@ class HexagonalGridBuilder {
      * If it is not set <pre>RECTANGULAR</pre> will be assumed.
      *
      * @param gridLayout layout
-     *
      * @return this [HexagonalGridBuilder].
      */
-    fun setGridLayout(gridLayout: GridLayoutStrategy): HexagonalGridBuilder = also {
-        this.gridLayout = gridLayout
+    public HexagonalGridBuilder setGridLayout(GridLayoutStrategy gridLayout)
+    {
+        this.gridLayoutStrategy = gridLayout;
+        return this;
     }
 
-    /**
-     * Sets the [GridLayoutStrategy] which will be used when creating the [HexagonalGrid], based on an existing
-     * [HexagonalGridLayout]. If it is not set <pre>RECTANGULAR</pre> will be assumed.
-     *
-     * @param gridLayout layout
-     *
-     * @return this [HexagonalGridBuilder].
-     */
-    fun setGridLayout(gridLayout: HexagonalGridLayout): HexagonalGridBuilder = also {
-        this.gridLayout = gridLayout.gridLayoutStrategy
-    }
-
-    private fun checkParameters() {
+    private void checkParameters()
+    {
         if (radius <= 0) {
-            throw IllegalStateException("Radius must be greater than 0.")
+            throw new IllegalStateException("Radius must be greater than 0.");
         }
-        if (!gridLayout.checkParameters(gridHeight, gridWidth)) {
-            throw IllegalStateException("Width: " + gridWidth + " and height: " + gridHeight + " is not valid for: " + gridLayout.getName() + " layout.")
+        if (!gridLayoutStrategy.checkParameters(gridHeight, gridWidth)) {
+            throw new IllegalStateException("Width: " + gridWidth + " and height: " + gridHeight
+                    + " is not valid for: " + gridLayoutStrategy.getName() + " layout.");
         }
     }
 }
