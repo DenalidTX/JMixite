@@ -26,10 +26,10 @@ public class HexagonalGridCalculatorImpl implements HexagonalGridCalculator
 
     public Collection<GridCell> calculateMovementRangeFrom(GridCell from, int distance)
     {
-        HashSet<GridCell> ret = new HashSet<>();
+        List<GridCell> ret = new ArrayList<>();
         for (int x = -distance; x <= distance; x++)
         {
-            for (int y= Math.max(-distance, -x - distance); y <= Math.min(distance, -x + distance); y++)
+            for (int y = Math.max(-distance, -x - distance); y <= Math.min(distance, -x + distance); y++)
             {
                 int z = -x - y;
                 CubeCoordinate tempCoordinate = CubeCoordinate.fromCoordinates(
@@ -87,7 +87,7 @@ public class HexagonalGridCalculatorImpl implements HexagonalGridCalculator
             return Collections.emptyList();
         }
         ArrayList<GridCell> results = new ArrayList<>(distance + 1);
-        for (int i=0; i<distance; i++)
+        for (int i=0; i<=distance; i++)
         {
             CubeCoordinate interpolatedCoordinate = cubeLinearInterpolate(
                 from.getCoordinate(),

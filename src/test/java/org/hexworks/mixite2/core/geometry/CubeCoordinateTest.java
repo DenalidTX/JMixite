@@ -43,7 +43,7 @@ class CubeCoordinateTest
 
     @Test
     public void shouldFailToCreateCoordinateFromMalformedKey() {
-        assertThrows(IllegalAccessError.class,
+        assertThrows(IllegalArgumentException.class,
                 () -> CubeCoordinate.fromAxialKey("asdf"));
     }
 }

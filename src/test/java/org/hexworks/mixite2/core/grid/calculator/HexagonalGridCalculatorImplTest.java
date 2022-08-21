@@ -1,5 +1,6 @@
 package org.hexworks.mixite2.core.grid.calculator;
 
+import static org.hexworks.mixite2.core.TestUtils.contentsEqual;
 import static org.hexworks.mixite2.core.geometry.CubeCoordinate.fromCoordinates;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
@@ -60,8 +61,9 @@ class HexagonalGridCalculatorImplTest {
 
 
         Collection<GridCell> actualCells = calculator.calculateMovementRangeFrom(hex.get(), 1);
-        assertIterableEquals(expected,
-                actualCells.stream().map(GridCell::getCoordinate).collect(Collectors.toList()));
+
+        assertTrue(contentsEqual(expected,
+                actualCells.stream().map(GridCell::getCoordinate).collect(Collectors.toList())));
     }
     
 
@@ -93,9 +95,9 @@ class HexagonalGridCalculatorImplTest {
         addCoordIfPresent(expected, grid, 2, 9);
 
 
-        Collection<GridCell> actualCells = calculator.calculateMovementRangeFrom(hex.get(), 1);
-        assertIterableEquals(expected,
-                actualCells.stream().map(GridCell::getCoordinate).collect(Collectors.toList()));
+        Collection<GridCell> actualCells = calculator.calculateMovementRangeFrom(hex.get(), 2);
+        assertTrue(contentsEqual(expected,
+                actualCells.stream().map(GridCell::getCoordinate).collect(Collectors.toList())));
     }
 
     @Test
@@ -118,7 +120,8 @@ class HexagonalGridCalculatorImplTest {
         expected.add(toCell.get().getCoordinate());
         
         Collection<GridCell> actual = calculator.drawLine(fromCell.get(), toCell.get());
-        assertIterableEquals(expected, actual);
+        assertTrue(contentsEqual(expected,
+                actual.stream().map(GridCell::getCoordinate).collect(Collectors.toList())));
     }
 
     @Test
@@ -166,12 +169,12 @@ class HexagonalGridCalculatorImplTest {
     @Test
     public void shouldProperlyCalculateRingWhenGivenValidParameters()
     {
-        CubeCoordinate targetCoords = fromCoordinates(9, 0);
+        CubeCoordinate targetCoords = fromCoordinates(4, 4);
         HashSet<CubeCoordinate> expected = new HashSet<>();
 
         addCoordIfPresent(expected, grid, 2, 7);
-        addCoordIfPresent(expected, grid, 2, 7);
         addCoordIfPresent(expected, grid, 3, 7);
+        addCoordIfPresent(expected, grid, 4, 7);
 
         addCoordIfPresent(expected, grid, 5, 6);
         addCoordIfPresent(expected, grid, 6, 5);
@@ -194,7 +197,8 @@ class HexagonalGridCalculatorImplTest {
         addCoordIfPresent(expected, grid, 1, 7);
 
         Collection<GridCell> actual = calculator.calculateRingFrom(targetCoords, 3);
-        assertIterableEquals(expected, actual);
+        assertTrue(contentsEqual(expected,
+                actual.stream().map(GridCell::getCoordinate).collect(Collectors.toList())));
     }
 
     @Test
@@ -212,7 +216,8 @@ class HexagonalGridCalculatorImplTest {
             addCoordIfPresent(expected, grid, 9, 1);
 
             Collection<GridCell> actual = calculator.calculateRingFrom(targetCoords, 1);
-            assertIterableEquals(expected, actual);
+            assertTrue(contentsEqual(expected,
+                    actual.stream().map(GridCell::getCoordinate).collect(Collectors.toList())));
         }
 
         {
@@ -223,7 +228,8 @@ class HexagonalGridCalculatorImplTest {
             addCoordIfPresent(expected, grid, 0, 1);
 
             Collection<GridCell> actual = calculator.calculateRingFrom(targetCoords, 1);
-            assertIterableEquals(expected, actual);
+            assertTrue(contentsEqual(expected,
+                    actual.stream().map(GridCell::getCoordinate).collect(Collectors.toList())));
         }
     }
 
@@ -239,7 +245,8 @@ class HexagonalGridCalculatorImplTest {
         addCoordIfPresent(expected, grid, -1, 2);
 
         Collection<GridCell> actual = calculator.calculateRingFrom(targetCoords, 3);
-        assertIterableEquals(expected, actual);
+        assertTrue(contentsEqual(expected,
+                actual.stream().map(GridCell::getCoordinate).collect(Collectors.toList())));
     }
 
     @Test

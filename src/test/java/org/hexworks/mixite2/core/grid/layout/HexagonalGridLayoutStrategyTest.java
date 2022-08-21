@@ -22,6 +22,7 @@ class HexagonalGridLayoutStrategyTest
     @Test
     public void shouldProperlyCreateHexagonsWithPointyOrientationWhenCreateHexagonsIsCalled()
     {
+        builder.setOrientation(HexagonOrientation.POINTY_TOP);
         Collection<CubeCoordinate> coords = target.fetchGridCoordinates(builder.getGridSpec());
 
         assertTrue(coords.contains(fromCoordinates(1, 0)));
@@ -47,7 +48,9 @@ class HexagonalGridLayoutStrategyTest
 
     @Test
     public void shouldProperlyCreateHexagonsWithPointyOrientationWhenCreateHexagonsIsCalledWithBiggerSize() {
-        builder.setGridHeight(5).setGridWidth(5);
+        builder.setGridHeight(5)
+                .setGridWidth(5)
+                .setOrientation(HexagonOrientation.POINTY_TOP);
         Collection<CubeCoordinate> coords = target.fetchGridCoordinates(builder.getGridSpec());
 
         assertTrue(coords.contains(fromCoordinates(1, 0)));
@@ -111,7 +114,8 @@ class HexagonalGridLayoutStrategyTest
 
     @Test
     public void shouldProperlyCreateHexagonsWithFlatOrientationWhenCreateHexagonsIsCalledWithBiggerSize() {
-        builder.setGridHeight(5).setGridWidth(5).setOrientation(HexagonOrientation.FLAT_TOP);
+        builder.setGridHeight(5).setGridWidth(5)
+                .setOrientation(HexagonOrientation.FLAT_TOP);
         Collection<CubeCoordinate> coords = target.fetchGridCoordinates(builder.getGridSpec());
 
         assertTrue(coords.contains(fromCoordinates(2, -1)));

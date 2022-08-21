@@ -24,7 +24,7 @@ class HexagonalGridLayoutStrategy implements GridLayoutStrategy
 
             startX = Math.max(startX, minX);
             int endX = startX + hexRadius + hexRadius - distanceFromMid;
-            for (int x = startX; x < endX; x++)
+            for (int x = startX; x <= endX; x++)
             {
                 int gridZ = (HexagonOrientation.FLAT_TOP.equals(gridSpec.getOrientation())) ? (int) (y - Math.floor(gridSize / 4.0)) : y;
                 coords.add(CubeCoordinate.fromCoordinates(x, gridZ));

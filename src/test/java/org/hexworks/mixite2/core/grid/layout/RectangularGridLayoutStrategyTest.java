@@ -2,6 +2,8 @@ package org.hexworks.mixite2.core.grid.layout;
 
 import org.hexworks.mixite2.core.geometry.CubeCoordinate;
 import static org.hexworks.mixite2.core.geometry.CubeCoordinate.fromCoordinates;
+
+import org.hexworks.mixite2.core.geometry.HexagonOrientation;
 import org.hexworks.mixite2.core.grid.builder.HexagonalGridBuilder;
 import org.junit.jupiter.api.Test;
 
@@ -51,6 +53,7 @@ class RectangularGridLayoutStrategyTest
     @Test
     public void shouldProperlyCreateHexagonsWithFlatOrientationWhenCreateHexagonsIsCalled() 
     {
+        builder.setOrientation(HexagonOrientation.FLAT_TOP);
         Collection<CubeCoordinate> coords = target.fetchGridCoordinates(builder.getGridSpec());
 
         assertTrue(coords.contains(fromCoordinates(0, 0)));

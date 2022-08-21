@@ -2,16 +2,15 @@ package org.hexworks.mixite2.core.grid;
 
 import org.hexworks.mixite2.core.geometry.*;
 
+import static org.hexworks.mixite2.core.TestUtils.contentsEqual;
 import static org.hexworks.mixite2.core.geometry.CubeCoordinate.fromCoordinates;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.hexworks.mixite2.core.grid.builder.HexagonalGridBuilder;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Optional;
+import java.sql.Array;
+import java.util.*;
 
 /**
  * This class does not actually run its own tests! This is a base class,
@@ -40,7 +39,7 @@ abstract class HexagonalGridImplTest
 
     @Test
     public void shouldReturnProperHexagonsWhenGetHexagonsByAxialRangeIsCalled() {
-        HashSet<GridCell> expected = new HashSet<>();
+        List<GridCell> expected = new ArrayList<>();
 
         addCoordIfPresent(expected, target, 2, 3);
         addCoordIfPresent(expected, target, 3, 3);
@@ -61,7 +60,7 @@ abstract class HexagonalGridImplTest
 
     @Test
     public void shouldReturnProperHexagonsWhenGetHexagonsByOffsetRangeIsCalled() {
-        HashSet<GridCell> expected = new HashSet<>();
+        List<GridCell> expected = new ArrayList<>();
 
         addCoordIfPresent(expected, target, 1, 3);
         addCoordIfPresent(expected, target, 2, 3);
@@ -77,7 +76,7 @@ abstract class HexagonalGridImplTest
 
         Collection<GridCell> actual = target.getHexagonsByOffsetRange(GRID_X_FROM, GRID_X_TO, GRID_Z_FROM, GRID_Z_TO);
 
-        assertIterableEquals(expected, actual);
+        assertTrue(contentsEqual(expected, actual));
     }
 
     @Test
@@ -141,15 +140,14 @@ abstract class HexagonalGridImplTest
         Optional<GridCell> hex = target.getByCubeCoordinate(fromCoordinates(3, 7));
         assertTrue(hex.isPresent());
 
-        HashSet<GridCell> expected = new HashSet<>();
+        List<GridCell> expected = new ArrayList<>();
 
-        addCoordIfPresent(expected, target, 3, 6);
-        addCoordIfPresent(expected, target, 4, 6);
         addCoordIfPresent(expected, target, 4, 7);
-
-        addCoordIfPresent(expected, target, 3, 8);
-        addCoordIfPresent(expected, target, 2, 8);
+        addCoordIfPresent(expected, target, 4, 6);
+        addCoordIfPresent(expected, target, 3, 6);
         addCoordIfPresent(expected, target, 2, 7);
+        addCoordIfPresent(expected, target, 2, 8);
+        addCoordIfPresent(expected, target, 3, 8);
 
 
         Collection<GridCell> actual = target.getNeighborsOf(hex.get());

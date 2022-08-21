@@ -15,7 +15,6 @@ public class RectangularGridLayoutStrategy implements GridLayoutStrategy
     {
         ArrayList<CubeCoordinate> coords = new ArrayList<>( gridSpec.getGridHeight() * gridSpec.getGridWidth());
 
-        // TODO: Check for off-by-one errors. (Kotlin "until")
         for (int offsetY = 0; offsetY < gridSpec.getGridHeight(); offsetY++)
         {
             for (int offsetX = 0; offsetX < gridSpec.getGridWidth(); offsetX++)

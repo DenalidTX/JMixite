@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static org.hexworks.mixite2.core.TestUtils.contentsEqual;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RectangularGridLayoutHexagonImplTest extends HexagonalGridImplTest
@@ -44,7 +45,7 @@ class RectangularGridLayoutHexagonImplTest extends HexagonalGridImplTest
                 .map(cell -> cell.getCoordinate().toAxialKey())
                 .toList();
 
-        assertIterableEquals(expectedCoordinates, actual);
+        assertTrue(contentsEqual(expectedCoordinates, actual));
     }
 
     @Test

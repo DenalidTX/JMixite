@@ -176,7 +176,7 @@ public class HexagonalGridImpl implements HexagonalGrid
 
     public Collection<GridCell> getNeighborsOf(GridCell hexagon)
     {
-        HashSet<GridCell> neighbors = new HashSet<>();
+        List<GridCell> neighbors = new ArrayList<>();
         for (int i = 0; i < NEIGHBORS.size(); i++)
         {
             Optional<GridCell> retHex = getNeighborByIndex(hexagon, i);
