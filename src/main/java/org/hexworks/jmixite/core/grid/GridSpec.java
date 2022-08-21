@@ -27,12 +27,11 @@ public class GridSpec
         this.gridHeight = gridHeight;
 
         if (this.orientation == HexagonOrientation.FLAT_TOP) {
-            // Note: The original Mixite library has the height and
-            // width calculations reversed, with a note that they
-            // need to be fixed. I don't understand why they were
-            // not just fixed and the note removed, but the hexagons
+            // Note: The original Mixite library has a note that
+            // the height and width are reversed there. The hexagons
             // definitely do not display properly if this is done
-            // the other way around.
+            // the other way around, so I don't understand why
+            // that note is there.
             hexagonHeight = calculateHeight(this.outerRadius);
             hexagonWidth = calculateWidth(this.outerRadius);
             innerRadius = hexagonHeight / 2;
