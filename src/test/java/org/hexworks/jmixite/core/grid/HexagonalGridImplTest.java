@@ -111,8 +111,8 @@ abstract class HexagonalGridImplTest
         Optional<GridCell> hex = target.getByPixelCoordinate(Point.fromPosition(x, y));
         assertTrue(hex.isPresent());
 
-        assertEquals(hex.get().getCoordinate().gridX(), 3);
-        assertEquals(hex.get().getCoordinate().gridZ(), 5);
+        assertEquals(hex.get().getCoordinate().x(), 3);
+        assertEquals(hex.get().getCoordinate().z(), 5);
     }
 
     @Test
@@ -122,8 +122,8 @@ abstract class HexagonalGridImplTest
         Optional<GridCell> hex = target.getByPixelCoordinate(Point.fromPosition(x, y));
         assertTrue(hex.isPresent());
 
-        assertEquals(hex.get().getCoordinate().gridX(), 3);
-        assertEquals(hex.get().getCoordinate().gridZ(), 5);
+        assertEquals(hex.get().getCoordinate().x(), 3);
+        assertEquals(hex.get().getCoordinate().z(), 5);
     }
 
     @Test
@@ -133,8 +133,8 @@ abstract class HexagonalGridImplTest
         Optional<GridCell> hex = target.getByPixelCoordinate(Point.fromPosition(x, y));
         assertTrue(hex.isPresent());
 
-        assertEquals(hex.get().getCoordinate().gridX(), 3);
-        assertEquals(hex.get().getCoordinate().gridZ(), 5);
+        assertEquals(hex.get().getCoordinate().x(), 3);
+        assertEquals(hex.get().getCoordinate().z(), 5);
     }
 
     @Test

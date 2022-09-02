@@ -9,13 +9,13 @@ import java.util.List;
  * Note that the y coordinate is not stored in this object since it can be
  * calculated.
  */
-public record CubeCoordinate (int gridX, int gridZ)
+public record CubeCoordinate (int x, int z)
 {
     private static final String SEP = ",";
 
-    public int gridY()
+    public int y()
     {
-        return -(gridX + gridZ);
+        return -(x + z);
     }
 
     /**
@@ -26,7 +26,7 @@ public record CubeCoordinate (int gridX, int gridZ)
      */
     public String toAxialKey()
     {
-        return gridX + SEP + gridZ;
+        return x + SEP + z;
     }
 
 
@@ -63,10 +63,10 @@ public record CubeCoordinate (int gridX, int gridZ)
     public Point asCubicGridPoint()
     {
         // TODO: Verify that this has the correct effect.
-        return Point.fromPosition(gridX, gridZ);
+        return Point.fromPosition(x, z);
     }
 
     public boolean equals(int otherGridX, int otherGridZ) {
-        return (gridX == otherGridX) && (gridZ == otherGridZ);
+        return (x == otherGridX) && (z == otherGridZ);
     }
 }

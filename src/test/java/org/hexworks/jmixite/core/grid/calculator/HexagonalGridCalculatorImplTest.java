@@ -145,9 +145,9 @@ class HexagonalGridCalculatorImplTest {
         Optional<GridCell> resultCell = calculator.rotateHexagon(originalCell, targetCell, RotationDirection.RIGHT);
         assertTrue(resultCell.isPresent());
 
-        assertEquals(3, resultCell.get().getCoordinate().gridX());
-        assertEquals(-4, resultCell.get().getCoordinate().gridY());
-        assertEquals(1, resultCell.get().getCoordinate().gridZ());
+        assertEquals(3, resultCell.get().getCoordinate().x());
+        assertEquals(-4, resultCell.get().getCoordinate().y());
+        assertEquals(1, resultCell.get().getCoordinate().z());
     }
 
     @Test
@@ -161,9 +161,9 @@ class HexagonalGridCalculatorImplTest {
         Optional<GridCell> resultCell = calculator.rotateHexagon(originalCell, targetCell, RotationDirection.LEFT);
         assertTrue(resultCell.isPresent());
 
-        assertEquals(3, resultCell.get().getCoordinate().gridX());
-        assertEquals(-4, resultCell.get().getCoordinate().gridY());
-        assertEquals(1, resultCell.get().getCoordinate().gridZ());
+        assertEquals(3, resultCell.get().getCoordinate().x());
+        assertEquals(-4, resultCell.get().getCoordinate().y());
+        assertEquals(1, resultCell.get().getCoordinate().z());
     }
 
     @Test

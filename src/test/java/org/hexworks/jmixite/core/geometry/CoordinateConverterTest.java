@@ -66,7 +66,7 @@ class CoordinateConverterTest
         {
             CubeCoordinate cube = testCubes.get(i);
             var result = coordConverter.convertCubeCoordinateToOffsetRow(cube, HexagonOrientation.FLAT_TOP);
-            assertEquals(expectedOffsetRowWithFlat.get(i), result, "(" + cube.gridX() + "," + cube.gridZ() + ") to " + result);
+            assertEquals(expectedOffsetRowWithFlat.get(i), result, "(" + cube.x() + "," + cube.z() + ") to " + result);
         }
     }
 
@@ -76,7 +76,7 @@ class CoordinateConverterTest
         {
             CubeCoordinate cube = testCubes.get(i);
             var result = coordConverter.convertCubeCoordinateToOffsetColumn(cube, HexagonOrientation.FLAT_TOP);
-            assertEquals(expectedOffsetColWithFlat.get(i), result, "(" + cube.gridX() + "," + cube.gridZ() + ") to " + result);
+            assertEquals(expectedOffsetColWithFlat.get(i), result, "(" + cube.x() + "," + cube.z() + ") to " + result);
         }
     }
 
@@ -86,7 +86,7 @@ class CoordinateConverterTest
         {
             CubeCoordinate cube = testCubes.get(i);
             var result = coordConverter.convertCubeCoordinateToOffsetRow(cube, HexagonOrientation.POINTY_TOP);
-            assertEquals(expectedOffsetRowWithPointy.get(i), result, "(" + cube.gridX() + "," + cube.gridZ() + ") to " + result);
+            assertEquals(expectedOffsetRowWithPointy.get(i), result, "(" + cube.x() + "," + cube.z() + ") to " + result);
         }
     }
 
@@ -96,7 +96,7 @@ class CoordinateConverterTest
         {
             CubeCoordinate cube = testCubes.get(i);
             var result = coordConverter.convertCubeCoordinateToOffsetColumn(cube, HexagonOrientation.POINTY_TOP);
-            assertEquals(expectedOffsetColWithPointy.get(i), result, "(" + cube.gridX() + "," + cube.gridZ() + ") to " + result);
+            assertEquals(expectedOffsetColWithPointy.get(i), result, "(" + cube.x() + "," + cube.z() + ") to " + result);
         }
     }
 
@@ -108,7 +108,7 @@ class CoordinateConverterTest
     @Test
     public void shouldCreateCoordinateFromKey() {
         var c = fromAxialKey(TEST_KEY);
-        assertEquals(TEST_GRID_X, c.gridX());
-        assertEquals(TEST_GRID_Z, c.gridZ());
+        assertEquals(TEST_GRID_X, c.x());
+        assertEquals(TEST_GRID_Z, c.z());
     }
 }

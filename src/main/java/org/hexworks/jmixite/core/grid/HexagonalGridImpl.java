@@ -38,11 +38,11 @@ public class HexagonalGridImpl implements HexagonalGrid
 
     public List<GridCell> getHexagonsByCubeRange(CubeCoordinate from, CubeCoordinate to)
     {
-        List<GridCell> coordinates = new ArrayList<>(Math.abs(from.gridZ() - to.gridZ()) + Math.abs(from.gridX() - to.gridX()));
+        List<GridCell> coordinates = new ArrayList<>(Math.abs(from.z() - to.z()) + Math.abs(from.x() - to.x()));
 
-        for (int gridZ = from.gridZ(); gridZ <= to.gridZ(); gridZ++)
+        for (int gridZ = from.z(); gridZ <= to.z(); gridZ++)
         {
-            for (int gridX = from.gridX(); gridX <= to.gridX(); gridX++)
+            for (int gridX = from.x(); gridX <= to.x(); gridX++)
             {
                 // TODO: Verify that this works and that the names are accurate.
                 Optional<GridCell> coord = getByGridCoordinate(gridX, gridZ);
@@ -80,7 +80,7 @@ public class HexagonalGridImpl implements HexagonalGrid
     public Optional<GridCell> getByCubeCoordinate(CubeCoordinate coordinate)
     {
         // TODO: Verify that this has the desired effect. Is 'cube coordinate' the same as 'grid coordinate'?
-        return getByGridCoordinate(coordinate.gridX(), coordinate.gridZ());
+        return getByGridCoordinate(coordinate.x(), coordinate.z());
     }
 
     public Optional<GridCell> getByGridCoordinate(int gridX, int gridZ)
@@ -132,8 +132,8 @@ public class HexagonalGridImpl implements HexagonalGrid
                 for (int[] neighborCoords : NEIGHBORS)
                 {
                     var neighbor = getByGridCoordinate(
-                            neighborCoords[NEIGHBOR_X_INDEX] + estimatedCell.get().getCoordinate().gridX(),
-                            neighborCoords[NEIGHBOR_Z_INDEX] + estimatedCell.get().getCoordinate().gridZ()
+                            neighborCoords[NEIGHBOR_X_INDEX] + estimatedCell.get().getCoordinate().x(),
+                            neighborCoords[NEIGHBOR_Z_INDEX] + estimatedCell.get().getCoordinate().z()
                     );
                     if (neighbor.isPresent())
                     {
@@ -157,15 +157,15 @@ public class HexagonalGridImpl implements HexagonalGrid
     private CubeCoordinate _getNeighborByIndex(GridCell hexagon, int index)
     {
         return CubeCoordinate.fromCoordinates(
-                hexagon.getCoordinate().gridX() + NEIGHBORS.get(index)[NEIGHBOR_X_INDEX],
-                hexagon.getCoordinate().gridZ() + NEIGHBORS.get(index)[NEIGHBOR_Z_INDEX]
+                hexagon.getCoordinate().x() + NEIGHBORS.get(index)[NEIGHBOR_X_INDEX],
+                hexagon.getCoordinate().z() + NEIGHBORS.get(index)[NEIGHBOR_Z_INDEX]
         );
     }
     public CubeCoordinate getNeighborCoordinateByIndex(CubeCoordinate coordinate, int index)
     {
         return CubeCoordinate.fromCoordinates(
-                coordinate.gridX() + NEIGHBORS.get(index)[NEIGHBOR_X_INDEX],
-                coordinate.gridZ() + NEIGHBORS.get(index)[NEIGHBOR_Z_INDEX]
+                coordinate.x() + NEIGHBORS.get(index)[NEIGHBOR_X_INDEX],
+                coordinate.z() + NEIGHBORS.get(index)[NEIGHBOR_Z_INDEX]
         );
     }
     public Optional<GridCell> getNeighborByIndex(GridCell hexagon, int index)

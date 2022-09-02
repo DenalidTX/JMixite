@@ -7,8 +7,8 @@ package org.hexworks.jmixite.core.geometry;
 public enum RotationDirection
 {
 
-    RIGHT(coord -> CubeCoordinate.fromCoordinates(-coord.gridZ(), -coord.gridY())),
-    LEFT(coord -> CubeCoordinate.fromCoordinates(-coord.gridY(), -coord.gridX()));
+    RIGHT(coord -> CubeCoordinate.fromCoordinates(-coord.z(), -coord.y())),
+    LEFT(coord -> CubeCoordinate.fromCoordinates(-coord.y(), -coord.x()));
 
     private interface RotationCalculator {
         CubeCoordinate calculate(CubeCoordinate coord);

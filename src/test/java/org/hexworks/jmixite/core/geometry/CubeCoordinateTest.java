@@ -16,7 +16,7 @@ class CubeCoordinateTest
 
     @Test
     public void shouldReturnProperCoordinateWhenGetGridXIsCalled() {
-        assertEquals(TEST_GRID_X, target.gridX());
+        assertEquals(TEST_GRID_X, target.x());
     }
 
     @Test
@@ -26,7 +26,7 @@ class CubeCoordinateTest
 
     @Test
     public void shouldReturnProperCoordinateWhenGetGridZIsCalled() {
-        assertEquals(TEST_GRID_Z, target.gridZ());
+        assertEquals(TEST_GRID_Z, target.z());
     }
 
     @Test
@@ -37,8 +37,8 @@ class CubeCoordinateTest
     @Test
     public void shouldCreateProperAxialCoordinateWhenFromKeyIsCalled() {
         CubeCoordinate result = fromAxialKey(TEST_GRID_X + "," + TEST_GRID_Z);
-        assertEquals(target.gridX(), result.gridX());
-        assertEquals(target.gridZ(), result.gridZ());
+        assertEquals(target.x(), result.x());
+        assertEquals(target.z(), result.z());
     }
 
     @Test

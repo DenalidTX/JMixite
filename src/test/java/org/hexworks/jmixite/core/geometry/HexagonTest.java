@@ -71,17 +71,17 @@ class HexagonTest
 
     @Test
     public void shouldReturnProperXCoordinateWhenGetGridXIsCalled() {
-        assertEquals(TEST_GRID_X, pointy_target.cubeCoordinate().gridX());
+        assertEquals(TEST_GRID_X, pointy_target.cubeCoordinate().x());
     }
 
     @Test
     public void shouldReturnProperXCoordinateWhenGetGridYIsCalled() {
-        assertEquals(TEST_GRID_Y, pointy_target.cubeCoordinate().gridY());
+        assertEquals(TEST_GRID_Y, pointy_target.cubeCoordinate().y());
     }
 
     @Test
     public void shouldReturnProperXCoordinateWhenGetGridZIsCalled() {
-        assertEquals(TEST_GRID_Z, pointy_target.cubeCoordinate().gridZ());
+        assertEquals(TEST_GRID_Z, pointy_target.cubeCoordinate().z());
     }
 
     @Test

@@ -18,9 +18,9 @@ public class HexagonalGridCalculatorImpl implements HexagonalGridCalculator
 
     public int calculateDistanceBetween(GridCell first, GridCell second)
     {
-        int absX = Math.abs(first.getCoordinate().gridX() - second.getCoordinate().gridX());
-        int absY = Math.abs(first.getCoordinate().gridY() - second.getCoordinate().gridY());
-        int absZ = Math.abs(first.getCoordinate().gridZ() - second.getCoordinate().gridZ());
+        int absX = Math.abs(first.getCoordinate().x() - second.getCoordinate().x());
+        int absY = Math.abs(first.getCoordinate().y() - second.getCoordinate().y());
+        int absZ = Math.abs(first.getCoordinate().z() - second.getCoordinate().z());
         return Math.max(Math.max(absX, absY), absZ);
     }
 
@@ -33,8 +33,8 @@ public class HexagonalGridCalculatorImpl implements HexagonalGridCalculator
             {
                 int z = -x - y;
                 CubeCoordinate tempCoordinate = CubeCoordinate.fromCoordinates(
-                        from.getCoordinate().gridX() + x,
-                        from.getCoordinate().gridZ() + z);
+                        from.getCoordinate().x() + x,
+                        from.getCoordinate().z() + z);
                 Optional<GridCell> tempCell = hexagonalGrid.getByCubeCoordinate(tempCoordinate);
                 tempCell.ifPresent(ret::add);
             }
@@ -47,13 +47,13 @@ public class HexagonalGridCalculatorImpl implements HexagonalGridCalculator
             GridCell targetCell,
             RotationDirection rotationDirection)
     {
-        int diffX = targetCell.getCoordinate().gridX() - centerCell.getCoordinate().gridX();
-        int diffZ = targetCell.getCoordinate().gridZ() - centerCell.getCoordinate().gridZ();
+        int diffX = targetCell.getCoordinate().x() - centerCell.getCoordinate().x();
+        int diffZ = targetCell.getCoordinate().z() - centerCell.getCoordinate().z();
         CubeCoordinate diffCoord = CubeCoordinate.fromCoordinates(diffX, diffZ);
         CubeCoordinate rotatedCoord = rotationDirection.calculateRotation(diffCoord);
         CubeCoordinate resultCoord = CubeCoordinate.fromCoordinates(
-            centerCell.getCoordinate().gridX() + rotatedCoord.gridX(),
-            centerCell.getCoordinate().gridZ() + rotatedCoord.gridZ()
+            centerCell.getCoordinate().x() + rotatedCoord.x(),
+            centerCell.getCoordinate().z() + rotatedCoord.z()
         ); // 0, x,
         return hexagonalGrid.getByCubeCoordinate(resultCoord);
     }
@@ -63,8 +63,8 @@ public class HexagonalGridCalculatorImpl implements HexagonalGridCalculator
         HashSet<GridCell> result = new HashSet<>();
 
         var currentCoordinate = CubeCoordinate.fromCoordinates(
-            centerCoordinate.gridX() - radius,
-            centerCoordinate.gridZ() + radius
+            centerCoordinate.x() - radius,
+            centerCoordinate.z() + radius
         );
 
         for( int i=0; i<6; i++)
@@ -102,9 +102,9 @@ public class HexagonalGridCalculatorImpl implements HexagonalGridCalculator
     private CubeCoordinate cubeLinearInterpolate(CubeCoordinate from, CubeCoordinate to, double sample)
     {
         return roundToCubeCoordinate(
-            linearInterpolate(from.gridX(), to.gridX(), sample),
-            linearInterpolate(from.gridY(), to.gridY(), sample),
-            linearInterpolate(from.gridZ(), to.gridZ(), sample)
+            linearInterpolate(from.x(), to.x(), sample),
+            linearInterpolate(from.y(), to.y(), sample),
+            linearInterpolate(from.z(), to.z(), sample)
         );
     }
 

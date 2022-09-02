@@ -45,11 +45,11 @@ public class CoordinateConverter
         public int convertCubeCoordinateToOffsetRow(CubeCoordinate coordinate, HexagonOrientation orientation)
         {
             if(HexagonOrientation.FLAT_TOP.equals(orientation)) {
-            return coordinate.gridZ() + (coordinate.gridX() - (coordinate.gridX() & 1)) / 2;
+            return coordinate.z() + (coordinate.x() - (coordinate.x() & 1)) / 2;
             }
             else
             {
-               return coordinate.gridZ();
+               return coordinate.z();
             }
         }
 
@@ -64,11 +64,11 @@ public class CoordinateConverter
         public int convertCubeCoordinateToOffsetColumn(CubeCoordinate coordinate, HexagonOrientation orientation) {
             if(HexagonOrientation.FLAT_TOP.equals(orientation))
             {
-                return coordinate.gridX();
+                return coordinate.x();
             }
             else
             {
-                return coordinate.gridX() + (coordinate.gridZ() - (coordinate.gridZ() & 1)) / 2;
+                return coordinate.x() + (coordinate.z() - (coordinate.z() & 1)) / 2;
             }
         }
 

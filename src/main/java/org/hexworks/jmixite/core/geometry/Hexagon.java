@@ -74,15 +74,15 @@ public class Hexagon
         if (HexagonOrientation.FLAT_TOP.equals(sharedData.getOrientation()))
         {
             return Point.fromPosition(
-                cubeCoordinate.gridX() * sharedData.getHexagonWidth() + sharedData.getOuterRadius(),
-                cubeCoordinate.gridZ() * sharedData.getHexagonHeight() + cubeCoordinate.gridX() * sharedData.getHexagonHeight() / 2 + sharedData.getHexagonHeight() / 2
+                cubeCoordinate.x() * sharedData.getHexagonWidth() + sharedData.getOuterRadius(),
+                cubeCoordinate.z() * sharedData.getHexagonHeight() + cubeCoordinate.x() * sharedData.getHexagonHeight() / 2 + sharedData.getHexagonHeight() / 2
             );
         }
         else
         {
             return Point.fromPosition(
-                cubeCoordinate.gridX() * sharedData.getHexagonWidth() + cubeCoordinate.gridZ() * sharedData.getHexagonWidth() / 2 + sharedData.getHexagonWidth() / 2,
-                cubeCoordinate.gridZ() * sharedData.getHexagonHeight() + sharedData.getOuterRadius()
+                cubeCoordinate.x() * sharedData.getHexagonWidth() + cubeCoordinate.z() * sharedData.getHexagonWidth() / 2 + sharedData.getHexagonWidth() / 2,
+                cubeCoordinate.z() * sharedData.getHexagonHeight() + sharedData.getOuterRadius()
             );
         }
     }
