@@ -1,7 +1,7 @@
 # JMixite
-This is a redesign of the mixite library by Hexworks. The original mixite library is fully functional, but it wasn't intuitive for all developers. This library has the same functionality, but with some key design differences. These changes are not proposed as an update to mixite itself, however, because these design differences alter the interfaces and fundamental organization of information.
+This is a pure Java port of the Mixite library by Hexworks. The original Mixite library is fully functional, but it did not integrate well with Java 9+ in all cases. This library has the same functionality, with some design differences. These changes are not proposed as an update to Mixite itself, however, because these design differences alter the interfaces and fundamental organization of information.
 
-_Aside: The original mixite library is fully functional and fit for purpose. This project exists simply because my own code style favors a different organizational scheme._
+_Aside: The original mixite library is fully functional and fit for purpose. This project exists primarily because Kotlin latest is based on Java 8; the changes described below reflect my own code style and design preferences._
 
 ## Design Principles
 - The external interfaces should be intuitive and simple, requiring minimal boilerplate code.
@@ -13,3 +13,4 @@ The key changes that differentiate this library from the original mixite involve
 - Hexagon is now a shape, nothing more. The functions beyond geometry now reside in GridCell.
 - GridCell (unlike the old Hexagon) is persistent and specific to a grid, rather than transient during some calculations.
 - This library does not provide a SatelliteData base class; it now considers the GridCell content to be fully implementation-specific.
+- There is no separate storage class. My use cases don't require the small performance gains that custom storage provides, so the added complexity is not worthwhile for me.
