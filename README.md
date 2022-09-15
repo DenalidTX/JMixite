@@ -1,4 +1,4 @@
-# mixite_2
+# JMixite
 This is a redesign of the mixite library by Hexworks. The original mixite library is fully functional, but it wasn't intuitive for all developers. This library has the same functionality, but with some key design differences. These changes are not proposed as an update to mixite itself, however, because these design differences alter the interfaces and fundamental organization of information.
 
 _Aside: The original mixite library is fully functional and fit for purpose. This project exists simply because my own code style favors a different organizational scheme._
