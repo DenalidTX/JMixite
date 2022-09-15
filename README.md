@@ -5,7 +5,7 @@ _Aside: The original mixite library is fully functional and fit for purpose. Thi
 
 ## Design Principles
 - The external interfaces should be intuitive and simple, requiring minimal boilerplate code.
-- _Strongly_ enforce the Open/Closed Principle.
+- Enforce the Open/Closed Principle.
 - Provide the simplest code possible while maintaining performance.
 
 ## Design Updates
